@@ -26,7 +26,7 @@ class ZxcsbookPipeline(FilesPipeline):
 
     def item_completed(self, results, item, info):
         file_paths=[x['path']for ok,x in results if ok]
-        newname=item['book_name'][0]+'.rar'
+        newname=item['book_name'][0]+'-'+item['book_author']+'.rar'
         print(file_paths)
         print(newname)
         filepath=FILES_STORE

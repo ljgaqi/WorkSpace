@@ -10,6 +10,7 @@ class ZxcsbookItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     book_name=scrapy.Field()
+    book_author=scrapy.Field()
     book_url=scrapy.Field()
     book_downurl=scrapy.Field()
     file_urls=scrapy.Field()
