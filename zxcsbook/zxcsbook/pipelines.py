@@ -6,8 +6,13 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from scrapy.pipelines.files import FilesPipeline
+from urllib.parse import urlparse
+from os.path import basename,dirname,join
 
-
-class ZxcsbookPipeline:
+class ZxcsbookPipeline():
     def process_item(self, item, spider):
         return item
+    # def file_path(self, request, response=None, info=None):
+    #     path=urlparse(request.url).path
+    #     return join(basename(dirname(path)),basename())

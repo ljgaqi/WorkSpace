@@ -27,8 +27,8 @@ CONCURRENT_REQUESTS = 2
 # See also autothrottle settings and docs
 #DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 2
+CONCURRENT_REQUESTS_PER_IP = 2
 
 # Disable cookies (enabled by default)
 #COOKIES_ENABLED = False
@@ -62,9 +62,11 @@ CONCURRENT_REQUESTS = 2
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'zxcsbook.pipelines.ZxcsbookPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   # 'zxcsbook.pipelines.ZxcsbookPipeline': 300,
+   'scrapy.pipelines.files.FilesPipeline': 1
+}
+FILES_STORE='./BOOK'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

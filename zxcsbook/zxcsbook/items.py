@@ -12,5 +12,5 @@ class ZxcsbookItem(scrapy.Item):
     book_name=scrapy.Field()
     book_url=scrapy.Field()
     book_downurl=scrapy.Field()
-    file_url=scrapy.Field()
+    file_urls=scrapy.Field()
 

@@ -16,6 +16,11 @@ class BookSpider(scrapy.Spider):
         for link in links:
             yield scrapy.Request(link.url,callback=self.parse_page)
 
+        # next='http://www.zxcs.me/sort/23/page/'
+        # for i in range(2,10):
+        #     next_url=next+str(i)
+        #     yield scrapy.Request(next_url,callback=self.parse())
+
     def parse_page(self, response):
         item=ZxcsbookItem()
         item['book_url']=response.url
@@ -27,7 +32,7 @@ class BookSpider(scrapy.Spider):
 
     def parse_down(self,response):
         item=response.meta['item']
-        item['file_url']=response.xpath('/html/body/div[2]/div[2]/div[3]/div[2]/span[1]/a/@href').extract_first()
+        item['file_urls']=[response.xpath('/html/body/div[2]/div[2]/div[3]/div[2]/span[1]/a/@href').extract_first()]
         yield item
 
 
