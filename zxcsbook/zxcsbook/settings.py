@@ -63,8 +63,8 @@ CONCURRENT_REQUESTS_PER_IP = 2
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   # 'zxcsbook.pipelines.ZxcsbookPipeline': 300,
-   'scrapy.pipelines.files.FilesPipeline': 1
+   'zxcsbook.pipelines.ZxcsbookPipeline': 1,
+   # 'scrapy.pipelines.files.FilesPipeline': 1
 }
 FILES_STORE='./BOOK'
 
