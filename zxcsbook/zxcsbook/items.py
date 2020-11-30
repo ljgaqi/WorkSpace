@@ -9,4 +9,8 @@ import scrapy
 class ZxcsbookItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    book_name=scrapy.Field()
+    book_url=scrapy.Field()
+    book_downurl=scrapy.Field()
+    file_url=scrapy.Field()
+
