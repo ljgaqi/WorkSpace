@@ -9,8 +9,10 @@ class BookSpider(scrapy.Spider):
     name = 'book'
     # allowed_domains = ['http://www.zxcs.me/sort/23']
     #都市.娱乐：http://www.zxcs.me/sort/23
+    #武侠.仙侠：http://www.zxcs.me/sort/25
     #奇幻.玄幻：http://www.zxcs.me/sort/26
-    start_urls = ['http://www.zxcs.me/sort/26/']
+    #历史.军事：http://www.zxcs.me/sort/28
+    start_urls = ['http://www.zxcs.me/sort/25/']
     page=2
     next_page=start_urls[0]+'page/'
     def parse(self, response):
@@ -19,10 +21,10 @@ class BookSpider(scrapy.Spider):
         for link in links:
             yield scrapy.Request(link.url,callback=self.parse_page)
 
-        # if self.page<93:
-        #     next_url=self.next_page+str(self.page)
-        #     self.page+=1
-        #     yield scrapy.Request(next_url,callback=self.parse)
+        if self.page<57:
+            next_url=self.next_page+str(self.page)
+            self.page+=1
+            yield scrapy.Request(next_url,callback=self.parse)
 
     def parse_page(self, response):
         item=ZxcsbookItem()
