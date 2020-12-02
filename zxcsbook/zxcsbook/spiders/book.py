@@ -11,7 +11,7 @@ class BookSpider(scrapy.Spider):
     # 武侠.仙侠：http://www.zxcs.me/sort/25
     # 奇幻.玄幻：http://www.zxcs.me/sort/26
     # 历史.军事：http://www.zxcs.me/sort/28
-    start_urls = ['http://www.zxcs.me/sort/55/']
+    #start_urls = ['http://www.zxcs.me/sort/55/']
     page = 2
     next_page = start_urls[0] + 'page/'
 
