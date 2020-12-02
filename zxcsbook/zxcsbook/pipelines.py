@@ -10,7 +10,7 @@ from scrapy.pipelines.files import FilesPipeline
 from urllib.parse import urlparse
 from os.path import basename,dirname,join
 import scrapy
-from zxcsbook.zxcsbook.settings import FILES_STORE
+from zxcsbook.settings import FILES_STORE
 import os
 
 class ZxcsbookPipeline(FilesPipeline):

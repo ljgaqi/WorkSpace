@@ -1,7 +1,7 @@
 import scrapy
 import re
 from scrapy.linkextractors import LinkExtractor
-from zxcsbook.zxcsbook.items import ZxcsbookItem
+from zxcsbook.items import ZxcsbookItem
 
 
 class ZxcsAllDownloadSpider(scrapy.Spider):
@@ -32,16 +32,15 @@ class ZxcsAllDownloadSpider(scrapy.Spider):
         for link in links:
             yield scrapy.Request(link.url, callback=self.parse_page)
 
-        next_temp=response.xpath('//*[@id="pagenavi"]').extract_first()
-        next_page_patten=re.compile('</span>  <a href="(.+?)">')
-        next_page=next_temp.findall(next_page_patten)
+        next_temp = response.xpath('//*[@id="pagenavi"]').extract_first()
+        next_page_patten = re.compile('</span>  <a href="(.+?)">')
+        next_page = next_page_patten.findall(next_temp)
         if next_page:
-            next_page=response.urljoin(next_page)
             print('************************************')
             print(next_page)
             print('开始抓取下一页')
             print('************************************')
-            yield scrapy.Request(next_page,callback=self.parse)
+            yield scrapy.Request(next_page[0],callback=self.parse,encoding='utf-8')
 
     def parse_page(self, response):
         item = ZxcsbookItem()
@@ -51,9 +50,9 @@ class ZxcsAllDownloadSpider(scrapy.Spider):
         item['book_name'] = patten.findall(bookname)
         item['book_author'] = bookname.split("：")[-1]
         item['book_downurl'] = response.xpath('//*[@id="content"]/div[2]/div[2]/p[1]/a/@href').extract_first()
-        yield scrapy.Request(item['book_downurl'], meta={'item': item}, callback=self.parse_down)
+        yield scrapy.Request(item['book_downurl'], meta={'item': item}, callback=self.parse_download)
 
-    def parse_down(self, response):
+    def parse_download(self, response):
         item = response.meta['item']
         item['file_urls'] = [response.xpath('/html/body/div[2]/div[2]/div[3]/div[2]/span[1]/a/@href').extract_first()]
         yield item

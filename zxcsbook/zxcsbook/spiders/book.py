@@ -1,7 +1,7 @@
 import scrapy
 import re
 from scrapy.linkextractors import LinkExtractor
-from zxcsbook.zxcsbook.items import ZxcsbookItem
+from zxcsbook.items import ZxcsbookItem
 
 
 class BookSpider(scrapy.Spider):
@@ -12,8 +12,8 @@ class BookSpider(scrapy.Spider):
     # 奇幻.玄幻：http://www.zxcs.me/sort/26
     # 历史.军事：http://www.zxcs.me/sort/28
     #start_urls = ['http://www.zxcs.me/sort/55/']
-    page = 2
-    next_page = start_urls[0] + 'page/'
+    # page = 2
+    # next_page = start_urls[0] + 'page/'
 
     def parse(self, response):
         le = LinkExtractor(restrict_xpaths='//*[@id="plist"]/dt/a')
