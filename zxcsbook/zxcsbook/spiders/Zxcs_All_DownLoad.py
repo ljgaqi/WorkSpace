@@ -14,6 +14,7 @@ import scrapy
 import re
 from scrapy.linkextractors import LinkExtractor
 from zxcsbook.items import ZxcsbookItem
+
 class ZxcsAllDownloadSpider(scrapy.Spider):
     name = 'Zxcs_All_DownLoad'                      #设置爬虫名称
     #allowed_domains = ['www.zxcs.me']
@@ -49,11 +50,11 @@ class ZxcsAllDownloadSpider(scrapy.Spider):
         if next_page:
         #因为提取出来的next_page是一个list，所以在传递参数时，需要提取list里面包含的网址字符，并指定encoding
             yield scrapy.Request(next_page[0],callback=self.parse,encoding='utf-8')
-        #parse_page方法是对书籍详情页面的信息进行抓取，并提取出书籍下载链接，传入parse_down进行解析。
+    #parse_page方法是对书籍详情页面的信息进行抓取，并提取出书籍下载链接，传入parse_down进行解析。
     def parse_page(self, response):
         item = ZxcsbookItem()                                   #初始化一个bookitem对象，将抓取的信息保存进去
         item['book_url'] = response.url
-        #用re模块对提取出来的text进行解析，提取出书名和作者名，分别储存。
+        #用re模块对提取出来的text进行解析，提取出书名和作者名，分别储存
         bookname = response.xpath('//*[@id="content"]/div[2]/div[2]/p[1]/a/text()').extract_first()
         patten = re.compile('《(.+)》')
         item['book_name'] = patten.findall(bookname)
@@ -61,9 +62,8 @@ class ZxcsAllDownloadSpider(scrapy.Spider):
         item['book_downurl'] = response.xpath('//*[@id="content"]/div[2]/div[2]/p[1]/a/@href').extract_first()
         #提取出书籍下载页面，传入parse_download进行进一步解析，并将item作为meta参数也传入parse_download中，进一步完善。
         yield scrapy.Request(item['book_downurl'], meta={'item': item}, callback=self.parse_download)
-        #parse_download是将书籍下载页面进行解析，提取出书籍文件的链接，进行保存下载。
+    #parse_download是将书籍下载页面进行解析，提取出书籍文件的链接，进行保存下载。
     def parse_download(self, response):
         item = response.meta['item']
         item['file_urls'] = [response.xpath('/html/body/div[2]/div[2]/div[3]/div[2]/span[1]/a/@href').extract_first()]
         yield item
-
