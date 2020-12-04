@@ -59,7 +59,7 @@ ROBOTSTXT_OBEY = False
 #EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
-
+FEED_EXPORT_FIELDS = ["jav_id", "jav_time", "jav_update","jav_url","image_urls","jav_magnet"]
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {

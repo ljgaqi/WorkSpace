@@ -17,10 +17,10 @@ class JavbusDownSpider(scrapy.Spider):
         for link in links:
             yield scrapy.Request(link.url,callback=self.parse_info)
 
-        next_url = response.xpath('//*[@id="next"]/@href').extract_first()
-        if next_url:
-            next_url = response.urljoin(next_url)
-            yield scrapy.Request(next_url, callback=self.parse)
+        # next_url = response.xpath('//*[@id="next"]/@href').extract_first()
+        # if next_url:
+        #     next_url = response.urljoin(next_url)
+        #     yield scrapy.Request(next_url, callback=self.parse)
 
     def parse_info(self,response):
         item=JavbusItem()
