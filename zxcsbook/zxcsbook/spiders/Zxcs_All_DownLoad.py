@@ -44,16 +44,17 @@ class ZxcsAllDownloadSpider(scrapy.Spider):
         for link in links:                                              #对每一个链接进行循环，将网址放入到下一个抓取方法中
             yield scrapy.Request(link.url, callback=self.parse_page)
         #为了抓取页面中的下一页链接，利用re对页面进行对比，将特定字符中包含的网址提取出来
-        next_temp = response.xpath('//*[@id="pagenavi"]').extract_first()
-        next_page_patten = re.compile('</span>  <a href="(.+?)">')
-        next_page = next_page_patten.findall(next_temp)
-        if next_page:
-        #因为提取出来的next_page是一个list，所以在传递参数时，需要提取list里面包含的网址字符，并指定encoding
-            yield scrapy.Request(next_page[0],callback=self.parse,encoding='utf-8')
+        # next_temp = response.xpath('//*[@id="pagenavi"]').extract_first()
+        # next_page_patten = re.compile('</span>  <a href="(.+?)">')
+        # next_page = next_page_patten.findall(next_temp)
+        # if next_page:
+        # #因为提取出来的next_page是一个list，所以在传递参数时，需要提取list里面包含的网址字符，并指定encoding
+        #     yield scrapy.Request(next_page[0],callback=self.parse,encoding='utf-8')
     #parse_page方法是对书籍详情页面的信息进行抓取，并提取出书籍下载链接，传入parse_down进行解析。
     def parse_page(self, response):
         item = ZxcsbookItem()                                   #初始化一个bookitem对象，将抓取的信息保存进去
         item['book_url'] = response.url
+        item['book_sn']=int(response.url.split("/")[-1])
         #用re模块对提取出来的text进行解析，提取出书名和作者名，分别储存
         bookname = response.xpath('//*[@id="content"]/div[2]/div[2]/p[1]/a/text()').extract_first()
         patten = re.compile('《(.+)》')

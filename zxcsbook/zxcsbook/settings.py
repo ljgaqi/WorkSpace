@@ -59,11 +59,12 @@ CONCURRENT_REQUESTS_PER_IP = 2
 #EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
-
+FEED_EXPORT_FIELDS = ["book_sn", "book_name", "book_author","book_url","book_downurl","file_urls"]
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'zxcsbook.pipelines.ZxcsbookPipeline': 1,
+   'zxcsbook.pipelines.ZxcsbookInCvs':2,
    # 'scrapy.pipelines.files.FilesPipeline': 1
 }
 FILES_STORE='./BOOK'

@@ -12,6 +12,9 @@ from os.path import basename,dirname,join
 import scrapy
 from zxcsbook.settings import FILES_STORE
 import os
+import csv
+import time
+import codecs
 
 class ZxcsbookPipeline(FilesPipeline):
     def process_item(self, item, spider):
@@ -33,3 +36,14 @@ class ZxcsbookPipeline(FilesPipeline):
     #     filepath=FILES_STORE
     #     os.rename(filepath+'/'+file_paths[0],filepath+'/'+newname)
     #     return item
+class ZxcsbookInCvs(object):
+    def __init__(self):
+        filename='Book'+time.strftime('%Y%m%d-%H%M',time.localtime(time.time()))+'.csv'
+        self.file=codecs.open(filename,'w',encoding='utf-8')
+    def process_item(self,item,spider):
+        itemfield=['book_sn', 'book_name', 'book_author','book_url','book_downurl','file_urls']
+        w=csv.DictWriter(self.file,fieldnames=itemfield)
+        w.writerow(item)
+        return item
+    def close_spider(self,spider):
+        self.file.close()
