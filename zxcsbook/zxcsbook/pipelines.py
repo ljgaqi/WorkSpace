@@ -7,6 +7,7 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from scrapy.pipelines.files import FilesPipeline
+from scrapy.exceptions import DropItem
 from urllib.parse import urlparse
 from os.path import basename,dirname,join
 import scrapy
@@ -40,10 +41,22 @@ class ZxcsbookInCvs(object):
     def __init__(self):
         filename='Book'+time.strftime('%Y%m%d-%H%M',time.localtime(time.time()))+'.csv'
         self.file=codecs.open(filename,'w',encoding='utf-8')
+    def open_spider(self,spider):
+        sourcefile=codecs.open(('Book20201208-1129.csv'),'r',encoding='utf-8')
+        sourcedict=csv.reader(sourcefile)
+        self.sourcelist=[]
+        for sn in sourcedict:
+            self.sourcelist.append(sn[0])
+        print(self.sourcelist)
+        print(len(self.sourcelist))
     def process_item(self,item,spider):
+
         itemfield=['book_sn', 'book_name', 'book_author','book_url','book_downurl','file_urls']
-        w=csv.DictWriter(self.file,fieldnames=itemfield)
-        w.writerow(item)
-        return item
+        if item['book_sn'] in self.sourcelist:
+            raise DropItem("Duplicate item found: %s" % item)
+        else:
+            w=csv.DictWriter(self.file,fieldnames=itemfield)
+            w.writerow(item)
+            return item
     def close_spider(self,spider):
         self.file.close()
